@@ -33,7 +33,7 @@ static int zxcvbn(lua_State *L) {
 	}
 
 	userDict[userDictLen] = NULL;
-	lua_pushnumber(L, ZxcvbnMatch(pwd, userDict, 0));
+	lua_pushnumber(L, ZxcvbnMatch(pwd, userDict, NULL));
 
 	for (size_t i = 0; i < userDictLen; i++) {
 		free((void *)userDict[i]);
