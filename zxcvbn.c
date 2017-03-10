@@ -27,10 +27,10 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  * DAMAGE.
- * 
+ *
  **********************************************************************************/
 
-#include <zxcvbn.h>
+#include "zxcvbn.h"
 #include <ctype.h>
 #include <string.h>
 #include <stdint.h>
@@ -936,7 +936,7 @@ typedef struct
 } SpatialMatchInfo_t;
 
 /* Shift mapping, characters in pairs: first is shifted, second un-shifted. */
-static const uint8_t UK_Shift[] = "!1\"2$4%5&7(9)0*8:;<,>.?/@'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz^6_-{[|\\}]~#€4£3¬`";
+static const uint8_t UK_Shift[] = "!1\"2$4%5&7(9)0*8:;<,>.?/@'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz^6_-{[|\\}]~#ï¿½4ï¿½3ï¿½`";
 static const uint8_t US_Shift[] = "!1\"'#3$4%5&7(9)0*8:;<,>.?/@2AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz^6_-{[|\\}]~`";
 
 
@@ -946,8 +946,8 @@ static const uint8_t UK_Qwerty[48*7] =
 /* key, left, up-left, up-right, right, down-right, down-left */
     '#', '\'',']',   0,   0,   0,   0,    '\'',';', '[', ']', '#',   0, '/',
     ',', 'm', 'k', 'l', '.',   0,   0,    '-', '0',   0,   0, '-', 'p', 'o',
-    '.', ',', 'l', ';', '/',   0,   0,    '/', '.', ';', '\'',  0,   0,   0, 
-    '0', '9',   0,   0, '-', 'p', 'o',    '1', '`',   0,   0, '2', 'q',   0, 
+    '.', ',', 'l', ';', '/',   0,   0,    '/', '.', ';', '\'',  0,   0,   0,
+    '0', '9',   0,   0, '-', 'p', 'o',    '1', '`',   0,   0, '2', 'q',   0,
     '2', '1',   0,   0, '3', 'w', 'q',    '3', '2',   0,   0, '4', 'e', 'w',
     '4', '3',   0,   0, '5', 'r', 'e',    '5', '4',   0,   0, '6', 't', 'r',
     '6', '5',   0,   0, '7', 'y', 't',    '7', '6',   0,   0, '8', 'u', 'y',
@@ -1482,7 +1482,7 @@ static void SequenceMatch(ZxcMatch_t **Result, const uint8_t *Passwd, int Start,
             Next = Passwd[0] + Dir;
             if (IsDigits && (Dir > 0) && (Next == ('9' + 1)) && (Passwd[1] == '0'))
             {
-                /* Incrementing digits, consider '0' to be same as a 'ten' character */ 
+                /* Incrementing digits, consider '0' to be same as a 'ten' character */
                 ++Len;
                 ++Passwd;
                 break;
@@ -1553,7 +1553,7 @@ static void SequenceMatch(ZxcMatch_t **Result, const uint8_t *Passwd, int Start,
  *
  * Dijkstra's algorithm finds the combination of these part matches (or paths)
  * which gives the lowest entropy (or smallest distance) from begining to end
- * of the password. 
+ * of the password.
  */
 
 /* Struct to hold the data of a node (imaginary point between password characters) */
