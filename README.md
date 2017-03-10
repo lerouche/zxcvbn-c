@@ -18,8 +18,10 @@ Note that you **must** place the compiled `zxcvbn.so` in your Lua's [require pat
 local zxcvbn = require('zxcvbn')
 
 -- The variable `entropy` will be a number, and may have decimal places
-local entropy = zxcvbn.getEntropy("password", {"optional", "user", "dictionary"})
+local entropy = zxcvbn.getEntropy("password", {"additional", "user", "dictionary"})
 ```
+
+Both argument values must be provided; if a user dictionary is not needed/wanted, provide `{}` (empty table) as the second argument value.
 
 ## Differences from the original version
 
