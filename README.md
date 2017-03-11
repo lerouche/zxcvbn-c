@@ -10,7 +10,7 @@ cd /path/to/this/repo
 mv zxcvbn.so /path/to/lua/modules/zxcvbn.so
 ```
 
-Note that you **must** place the compiled `zxcvbn.so` in your Lua's [require path](https://www.lua.org/pil/8.1.html) so that `require('zxcvbn')` loads the library -- using any other path such that `'zxcvbn'` is not the `require` argument value won't work. This is because the library name is hard-coded in the C module, a requirement for making Lua C modules.
+Note that you **must** place the compiled `zxcvbn.so` in your Lua's [require path](https://www.lua.org/pil/8.1.html) so that `require('zxcvbn')` loads the library -- using any other path such that `'zxcvbn'` is not the `require` argument value will not work. This is because the library name is hard-coded in the C module, a requirement for making Lua C modules.
 
 ## Using
 
@@ -22,6 +22,8 @@ local entropy = zxcvbn.getEntropy("password", {"additional", "user", "dictionary
 ```
 
 Both argument values must be provided; if a user dictionary is not needed/wanted, provide `{}` (empty table) as the second argument value.
+
+Null bytes (ASCII 0) in the password will be converted to SOH bytes (ASCII 1) to ensure compatibility with C strings and the C library. It is rare to have a null byte in a string, and replacing them with a SOH character should not affect the final calculated entropy.
 
 ## Differences from the original version
 

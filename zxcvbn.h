@@ -29,7 +29,7 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  * DAMAGE.
- * 
+ *
  **********************************************************************************/
 
 /* If this is defined, the dictiononary data is read from file. When undefined */
@@ -42,19 +42,10 @@
 /* streams are always used). */
 /*#define USE_FILE_IO */
 
-#ifndef __cplusplus
 /* C build. Use the standard malloc/free for heap memory */
 #include <stdlib.h>
 #define MallocFn(T,N) ((T *)malloc((N) * sizeof(T)))
 #define FreeFn(P)      free(P)
-
-#else
-
-/* C++ build. Use the new/delete operators for heap memory */
-#define MallocFn(T,N)   (new T[N])
-#define FreeFn(P)       (delete [] P)
-
-#endif
 
 /* Enum for the types of match returned in the Info arg to ZxcvbnMatch */
 typedef enum
@@ -85,32 +76,6 @@ struct ZxcMatch
 };
 typedef struct ZxcMatch ZxcMatch_t;
 
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#ifdef USE_DICT_FILE
-
-/**********************************************************************************
- * Read the dictionnary data from the given file. Returns 1 if OK, 0 if error.
- * Called once at program startup.
- */
-int ZxcvbnInit(const char *);
-
-/**********************************************************************************
- * Free the dictionnary data after use. Called once at program shutdown.
- */
-void ZxcvbnUnInit();
-
-#else
-
-/* As the dictionary data is included in the source, define these functions to do nothing. */
-#define ZxcvbnInit(s) 1
-#define ZxcvbnUnInit() do {} while(0)
-
-#endif
-
 /**********************************************************************************
  * The main password matching function. May be called multiple times.
  * The parameters are:
@@ -122,7 +87,7 @@ void ZxcvbnUnInit();
  *  Info        The address of a pointer variable to receive information on the parts
  *               of the password. This parameter can be null if no information is wanted.
  *               The data should be freed by calling ZxcvbnFreeInfo().
- * 
+ *
  * Returns the entropy of the password (in bits).
  */
 double ZxcvbnMatch(const char *Passwd, const char *UserDict[], ZxcMatch_t **Info);
@@ -131,9 +96,5 @@ double ZxcvbnMatch(const char *Passwd, const char *UserDict[], ZxcMatch_t **Info
  * Free the data returned in the Info parameter to ZxcvbnMatch().
  */
 void ZxcvbnFreeInfo(ZxcMatch_t *Info);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif
