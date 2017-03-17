@@ -15,7 +15,7 @@ if [ ! -f dict-src.h ]; then
 fi
 
 echo "Compiling module..."
-gcc zxcvbn.c zxcvbn-luajit.c -shared -O2 -fomit-frame-pointer -fPIC -Wall -Wextra -I"$luajitIncludesDir" -o zxcvbn.so
+gcc zxcvbn.c zxcvbn-luajit.c -shared -O2 -fomit-frame-pointer -fPIC -Wall -Wextra -I"$luajitIncludesDir" -lm -o zxcvbn.so
 
 rm -f dictgen
 

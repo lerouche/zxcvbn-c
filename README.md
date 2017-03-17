@@ -19,11 +19,13 @@ local zxcvbn = require('zxcvbn')
 
 -- The variable `entropy` will be a number, and may have decimal places
 local entropy = zxcvbn.getEntropy("password", {"additional", "user", "dictionary"})
+local score = zxcvbn.getScore("password", {"additional", "user", "dictionary"})
 ```
 
 Both argument values must be provided; if a user dictionary is not needed/wanted, provide `{}` (empty table) as the second argument value.
 
-Null bytes (ASCII 0) in the password will be converted to SOH bytes (ASCII 1) to ensure compatibility with C strings and the C library. It is rare to have a null byte in a string, and replacing them with a SOH character should not affect the final calculated entropy.
+Null bytes (ASCII 0) in the password will be converted to SOH bytes (ASCII 1) to ensure compatibility with C strings and the C library.
+Replacing them with SOH characters should not affect the final calculated entropy.
 
 ## Differences from the original version
 

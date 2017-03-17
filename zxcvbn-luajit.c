@@ -5,9 +5,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <math.h>
 #include "zxcvbn.h"
 
-static int zxcvbn(lua_State *L) {
+static int zxcvbn(lua_State *L, int calcScore) {
     if (!lua_isstring(L, 1)) {
         return luaL_error(L, "The first argument must be a string");
     }
@@ -68,7 +69,25 @@ static int zxcvbn(lua_State *L) {
     userDict[userDictLen] = NULL;
 
     // Calculate the entropy and return to Lua
-    lua_pushnumber(L, ZxcvbnMatch(password, userDict, NULL));
+    double calculatedEntropy = ZxcvbnMatch(password, userDict, NULL);
+    if (calcScore) {
+        double lhs = pow(2, calculatedEntropy) * 0.00005;
+        int calculatedScore;
+        if (lhs < 100) {
+            calculatedScore = 0;
+        } else if (lhs < 10000) {
+            calculatedScore = 1;
+        } else if (lhs < 1000000) {
+            calculatedScore = 2;
+        } else if (lhs < 100000000) {
+            calculatedScore = 3;
+        } else {
+            calculatedScore = 4;
+        }
+        lua_pushnumber(L, calculatedScore);
+    } else {
+        lua_pushnumber(L, calculatedEntropy);
+    }
 
     // Free memory
     for (int i = 0; i < userDictLen; i++) {
@@ -79,8 +98,17 @@ static int zxcvbn(lua_State *L) {
     return 1;
 }
 
+static int zxcvbnlib_getEntropy(lua_State *L) {
+    return zxcvbn(L, 0);
+}
+
+static int zxcvbnlib_getScore(lua_State *L) {
+    return zxcvbn(L, 1);
+}
+
 static const struct luaL_Reg zxcvbnlib [] = {
-    {"getEntropy", zxcvbn},
+    {"getEntropy", zxcvbnlib_getEntropy},
+    {"getScore", zxcvbnlib_getScore},
     {NULL, NULL}
 };
 
