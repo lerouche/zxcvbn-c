@@ -31,7 +31,7 @@ Replacing them with SOH characters should not affect the final calculated entrop
 
 See the upstream repository's README.md at https://github.com/tsyrogit/zxcvbn-c
 
-##References
+## References
 
 The original version by Dropbox is available at https://github.com/lowe/zxcvbn
 
