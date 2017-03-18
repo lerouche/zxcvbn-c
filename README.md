@@ -19,6 +19,7 @@ local zxcvbn = require('zxcvbn')
 
 -- The variable `entropy` will be a number, and may have decimal places
 local entropy = zxcvbn.getEntropy("password", {"additional", "user", "dictionary"})
+-- The variable `score` will be an integer between 0 and 4 (inclusive)
 local score = zxcvbn.getScore("password", {"additional", "user", "dictionary"})
 ```
 
